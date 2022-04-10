@@ -57,6 +57,15 @@ create_kind_cluster() {
     echo
 }
 
+create_secrets() {
+    readonly GPG_KEY_FILE_BASE64=${GPG_KEY_FILE_BASE64:-}
+    if [[ -n "$GPG_KEY_FILE_BASE64" ]]; then
+        docker exec -e GPG_KEY_FILE_BASE64=${GPG_KEY_FILE_BASE64} ct bash -c "echo $GPG_KEY_FILE_BASE64 | base64 -d > /tmp/gcp_key_file.json; \
+        kubectl create secret docker-registry gcr.io --from-file=.dockerconfigjson=/tmp/gcp_key_file.json || true; \
+        rm /tmp/gcp_key_file.json;"
+    fi
+}
+
 load_kind_docker_image() {
     local changed_list=$(docker_exec ct list-changed --config ct.yaml)
 
@@ -91,8 +100,8 @@ main() {
     trap cleanup EXIT
     lint_charts
     create_kind_cluster
+    create_secrets
     load_kind_docker_image
     install_charts
 }
-
 main
