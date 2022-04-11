@@ -28,4 +28,4 @@ docker build -t iorad/iorad-dev-node -f $SCRIPT_PATH/Dockerfile-node $SCRIPT_PAT
 
 echo "kind load docker-image iorad/iorad-dev-app iorad/iorad-dev-node iorad/src --name $CLUSTER_NAME"
 
-kind load docker-image  iorad/src iorad/iorad-dev-node iorad/iorad-dev-app --name $CLUSTER_NAME
+kind load docker-image  iorad/src iorad/iorad-dev-node iorad/iorad-dev-app --name $CLUSTER_NAME || true

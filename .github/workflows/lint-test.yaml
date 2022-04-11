@@ -66,6 +66,7 @@ jobs:
               do
                   if  [[ $i == charts/* ]];
                   then
+                      echo "$i";
                       find ./$i -name "autorun.sh" -exec chmod +x {} \; -exec {} \; || true
                   fi
               done
@@ -75,5 +76,5 @@ jobs:
         # should create different k8s cluster versions
       - name: Run chart-testing (install)
         run: |
-          ct install --namespace default --config ct.yaml
+          ct install --namespace default --config ct.yaml --charts charts/iorad
         timeout-minutes: 30
