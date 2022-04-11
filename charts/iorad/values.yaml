@@ -179,8 +179,8 @@ migration:
   affinity: {}
 
 
-imagePullSecrets:
-  - name: gcr.io
+# imagePullSecrets:
+#  - name: gcr.io
 #   - name: registry.gitlab.com
 
 redis:

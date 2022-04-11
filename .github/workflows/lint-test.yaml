@@ -47,35 +47,13 @@ jobs:
           config: kind/kind-config.yaml
         if: steps.list-changed.outputs.changed == 'true'
 
-      # _json_key_base64 is not supported so we must convert it
-      - name: GCR Keys
-        if: ${{ secrets.GPG_KEY_FILE_BASE64 }}
-        run: |
-          echo "$GCR_JSON_KEY_BASE64" | base64 --decode >> .gcr-key
-          while read -r line;
-          do
-           echo "::add-mask::${line}"
-          done <<< "$(cat .gcr-key)"
-          echo "GCR_JSON_KEY<<EOF" >> $GITHUB_ENV
-          cat .gcr-key >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          # clean up
-          rm .gcr-key
-        shell: bash
-        env:
-          GCR_JSON_KEY_BASE64: ${{ secrets.GPG_KEY_FILE_BASE64 }}
-
-      # https://github.com/docker/login-action#google-container-registry-gcr
-      - name: Login to Google Container Registry (GCR)
-        uses: docker/login-action@v1
-        if: ${{ secrets.GPG_KEY_FILE_BASE64 }}
+      - name: Login to Docker registries
+        uses: teracyhq-incubator/.github/actions/docker-multiple-login-develop@main
         with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ env.GCR_JSON_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          gcr-json-key-base64: ${{ secrets.GCR_KEY_FILE_BASE64 }}
 
       - name: Patch GPG key's secret
-        if: ${{ env.GCR_JSON_KEY }}
         run: |
           kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gcr.io"}]}'
 
@@ -88,7 +66,7 @@ jobs:
               do
                   if  [[ $i == charts/* ]];
                   then
-                      find ./$i -name "autorun.sh" -exec chmod +x {} \; -exec {} \;
+                      find ./$i -name "autorun.sh" -exec chmod +x {} \; -exec {} \; || true
                   fi
               done
           fi   

@@ -58,11 +58,13 @@ create_kind_cluster() {
 }
 
 create_secrets() {
-    readonly GPG_KEY_FILE_BASE64=${GPG_KEY_FILE_BASE64:-}
+    readonly GPG_KEY_FILE_BASE64=${GCR_KEY_FILE_BASE64:-}
     if [[ -n "$GPG_KEY_FILE_BASE64" ]]; then
-        docker exec -e GPG_KEY_FILE_BASE64=${GPG_KEY_FILE_BASE64} ct bash -c "echo $GPG_KEY_FILE_BASE64 | base64 -d > /tmp/gcp_key_file.json; \
-        kubectl create secret docker-registry gcr.io --from-file=.dockerconfigjson=/tmp/gcp_key_file.json || true; \
-        rm /tmp/gcp_key_file.json;"
+        echo $GPG_KEY_FILE_BASE64 | base64 -d > /tmp/gcp_key_file.json;
+
+        docker login -u _json_key -p "$(cat /tmp/gcp_key_file.json)" https://gcr.io
+
+        rm /tmp/gcp_key_file.json;
     fi
 }
 
@@ -75,7 +77,7 @@ load_kind_docker_image() {
             if  [[ $i == charts/* ]];
             then
                 echo "$i"
-                find ./$i -name "autorun.sh" -exec chmod +x {} \; -exec {} $CLUSTER_NAME \; # 2>/dev/null 
+                find ./$i -name "autorun.sh" -exec chmod +x {} \; -exec {} $CLUSTER_NAME \; || true
             fi
             
         done
@@ -91,7 +93,7 @@ lint_charts() {
 }
 
 install_charts() {
-    docker_exec ct install --namespace default
+    docker_exec ct install --namespace default --charts charts/iorad
     echo
 }
 
@@ -104,4 +106,4 @@ main() {
     load_kind_docker_image
     install_charts
 }
-main
+load_kind_docker_image
