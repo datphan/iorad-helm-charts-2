@@ -58,7 +58,6 @@ spec:
           name: storage
           subPath: .cache-npm
 
-      {{- if .Values.mysql.host }}
       - name: wait-for-db
         image: mysql:{{ .Values.mysql.imageTag }}
         command:
@@ -73,7 +72,6 @@ spec:
             name: {{ $fullname }}-db
         - secretRef:
             name: {{ $fullname }}-db
-      {{- end }}
 
       - name: yarn-install
         image: {{ .Values.dev.image | quote }}
@@ -121,10 +119,6 @@ spec:
 
           echo "pwd"
           pwd
-
-          ls
-
-          cat package.json
 
           yarn install --tldjs-update-rules
 

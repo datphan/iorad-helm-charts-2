@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $fullname }}
+  name: {{ $fullname }}-cron
   labels:
-    app.kubernetes.io/name: {{ include "iorad.name" . }}
+    app.kubernetes.io/name: {{ include "iorad.name" . }}-cron
     helm.sh/chart: {{ include "iorad.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "iorad.name" . }}
+      app.kubernetes.io/name: {{ include "iorad.name" . }}-cron
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "iorad.name" . }}
+        app.kubernetes.io/name: {{ include "iorad.name" . }}-cron
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
@@ -80,6 +80,8 @@ spec:
         env:
         - name: REVISION # for auto-restarting the pod
           value: {{ .Values.revision | quote }}
+        - name: DEPLOYMENT_NAME
+          value: "cron"
         envFrom:
         - configMapRef:
             name: {{ $fullname }}

@@ -51,9 +51,7 @@ spec:
           echo "pwd"
           pwd
 
-          cat package.json
-
-          yarn install
+          npm install
           bower install --allow-root
 
           grunt templates
