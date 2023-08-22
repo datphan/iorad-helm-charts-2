@@ -6,9 +6,19 @@ replicaCount: 1
 
 revision:
 
-image:
-  repository: iorad/app
-  tag: develop
+src:
+  image: iorad/src
+  pullPolicy: IfNotPresent
+
+app:
+  image: iorad/iorad-dev-app
+  pullPolicy: IfNotPresent
+
+webpack:
+  replicaCount: 1
+
+dev:
+  image: iorad/iorad-dev-node
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -21,16 +31,33 @@ livenessProbe: {}
 
 configMapEnv:
   LOGGING_LEVEL: debug
+  PORT: 3000
+  WEBPACK_PORT: 3001
+  API_PORT: 3030
 
 secretEnv: {}
 
-volumeMounts: {}
-
-volumes: {}
+volumes:
+- name: storage
+  persistentVolumeClaim:
+    claimName: iorad-storage-dev
+    existing: true
 
 service:
   type: ClusterIP
-  port: 8080
+  ports:
+  - port: 3000
+    targetPort: dev
+    protocol: TCP
+    name: dev
+
+webpackService:
+  type: ClusterIP
+  ports:
+  - port: 3001
+    targetPort: webpack
+    protocol: TCP
+    name: webpack
 
 ingress: {}
 
@@ -47,6 +74,7 @@ affinity: {}
 mysql:
   enabled: false
   imageTag: 5.7
+  port: 3306
 
 migration:
   enabled: false
