@@ -2,13 +2,11 @@ apiVersion: v2
 appVersion: "0.1"
 description: iorad helm chart for Kubernetes
 name: iorad
-version: 0.1.0
+version: 0.1.1
 type: application
 maintainers:
 - email: hq@teracy.com
   name: teracyhq
-
-
 dependencies:
 - name: redis
   version: "~16.13.2"

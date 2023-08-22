@@ -62,6 +62,8 @@ create_secrets() {
     if [[ -n "$GPG_KEY_FILE_BASE64" ]]; then
         echo $GPG_KEY_FILE_BASE64 | base64 -d > /tmp/gcp_key_file.json;
 
+        echo 'docker login'
+
         docker login -u _json_key -p "$(cat /tmp/gcp_key_file.json)" https://gcr.io
 
         rm /tmp/gcp_key_file.json;
