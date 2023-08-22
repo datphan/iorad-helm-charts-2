@@ -4,17 +4,25 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly CT_VERSION=v3.4.0
+readonly CT_VERSION=v3.9.0
 readonly KIND_VERSION=v0.11.1
 readonly CLUSTER_NAME=chart-testing
-readonly K8S_VERSION=v1.21.1
+readonly K8S_VERSION=v1.28.0
+
+docker_opts=""
+
+if [ "$DEV_MODE" = "docker" ]; then
+  docker_opts="--platform linux/amd64"
+fi
+
+echo "docker_opts: ${docker_opts}"
 
 run_ct_container() {
     echo 'Running ct container...'
     docker run --rm --interactive --detach --network host --name ct \
         --volume "$(pwd)/ct.yaml:/etc/ct/ct.yaml" \
         --volume "$(pwd):/workdir" \
-        --workdir /workdir \
+        --workdir /workdir $docker_opts \
         "quay.io/helmpack/chart-testing:$CT_VERSION" \
         cat
     echo
