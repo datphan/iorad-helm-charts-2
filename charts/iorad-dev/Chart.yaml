@@ -1,6 +1,6 @@
 apiVersion: v2
 appVersion: "0.1"
-version: 1.0.0
+version: 1.0.1
 name: iorad-dev
 description: iorad helm chart for Kubernetes dev mode
 type: application
