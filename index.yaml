@@ -17,6 +17,24 @@ entries:
   iorad:
   - apiVersion: v2
     appVersion: "0.1"
+    created: "2023-08-22T01:26:32.757589868Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: ~16.13.2
+    description: iorad helm chart for Kubernetes
+    digest: e9c5f30a9e0d94053e6980cd9a025282671548dbddf78e0858d91289e1aee1e8
+    maintainers:
+    - email: hq@teracy.com
+      name: teracyhq
+    name: iorad
+    type: application
+    urls:
+    - https://github.com/datphan/iorad-helm-charts-2/releases/download/iorad-0.1.0/iorad-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
+    appVersion: "0.1"
     created: "2023-08-21T13:23:50.070526927Z"
     dependencies:
     - condition: redis.enabled
@@ -36,6 +54,19 @@ entries:
   iorad-cdn:
   - apiVersion: v2
     appVersion: "0.1"
+    created: "2023-08-22T01:26:32.876750729Z"
+    description: iorad cdn Helm chart for Kubernetes
+    digest: c3c21dab8939493c093f12c9f3fd20eb2f5d086ea7304e4c10eab9183ae104d1
+    maintainers:
+    - email: hq@teracy.com
+      name: teracyhq
+    name: iorad-cdn
+    type: application
+    urls:
+    - https://github.com/datphan/iorad-helm-charts-2/releases/download/iorad-cdn-0.1.0/iorad-cdn-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
+    appVersion: "0.1"
     created: "2023-08-21T13:23:50.241495251Z"
     description: iorad cdn Helm chart for Kubernetes
     digest: a86e1ed232d652f1546693e4565f389c011ac8f27c552230a68ecc0437a84a45
@@ -48,6 +79,24 @@ entries:
     - https://github.com/datphan/iorad-helm-charts-2/releases/download/iorad-cdn-0.1.0-alpha.2/iorad-cdn-0.1.0-alpha.2.tgz
     version: 0.1.0-alpha.2
   iorad-dev:
+  - apiVersion: v2
+    appVersion: "0.1"
+    created: "2023-08-22T01:26:33.0172684Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: ~16.13.2
+    description: iorad helm chart for Kubernetes dev mode
+    digest: 9f25856e28b3247af831cda0e6a7c07b8f2a769228aa5467a1e534a7c0827555
+    maintainers:
+    - email: hq@teracy.com
+      name: teracyhq
+    name: iorad-dev
+    type: application
+    urls:
+    - https://github.com/datphan/iorad-helm-charts-2/releases/download/iorad-dev-0.1.0/iorad-dev-0.1.0.tgz
+    version: 0.1.0
   - apiVersion: v2
     appVersion: "0.1"
     created: "2023-08-21T13:23:50.417850207Z"
@@ -66,4 +115,4 @@ entries:
     urls:
     - https://github.com/datphan/iorad-helm-charts-2/releases/download/iorad-dev-0.1.0-alpha.2/iorad-dev-0.1.0-alpha.2.tgz
     version: 0.1.0-alpha.2
-generated: "2023-08-21T13:23:50.417865207Z"
+generated: "2023-08-22T01:26:33.0172871Z"
