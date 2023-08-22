@@ -2,8 +2,8 @@ apiVersion: v2
 appVersion: "0.1"
 description: iorad cdn Helm chart for Kubernetes
 name: iorad-cdn
-version: 0.1.0-alpha.2
+version: 0.1.0
 type: application
 maintainers:
-  - email: hq@teracy.com
-    name: teracyhq
+- email: hq@teracy.com
+  name: teracyhq
